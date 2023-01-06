@@ -1,0 +1,45 @@
+<ng-container *ngIf="data.type === 'login'">
+  <div class="font-bold text-4xl p-2">{{ data.info }}</div>
+  <div class="p-2">
+    <p class="font-bold">虛擬錢包是什麼？</p>
+    <p>若您不瞭解虛擬錢包是什麼，請參考：
+      <a href="https://metamask.io/">MetaMask官方網站</a>
+    </p>
+    <br>
+    <p class="font-bold">為什麼無法登入頁面？</p>
+    <p>若您已安裝錢包，並已檢查瀏覽器版本，請於瀏覽器工具列找到錢包圖示並登入</p>
+  </div>
+  <div class="flex justify-start p-2">
+    <button mat-button (click)="close()">瞭解</button>
+  </div>
+</ng-container>
+
+<ng-container *ngIf="data.type === 'normal'">
+  <div class="font-bold text-4xl p-2">提醒視窗</div>
+  <div class="p-2">
+    <p>{{ data.info }}</p>
+  </div>
+  <div class="flex justify-start p-2">
+    <button mat-button (click)="close()">瞭解</button>
+  </div>
+</ng-container>
+
+<ng-container *ngIf="data.type === 'vote-form'">
+
+  <div class="font-bold text-4xl p-2">票選</div>
+  <div class="p-2">
+    <mat-spinner class="p-10 m-10" *ngIf="loading"></mat-spinner>
+    <p *ngIf="loading">交易進行中...</p>
+    <p *ngIf="!loading && !isConfirm" class="font-bold py-5">您確認投票給第 {{data.info}} 組嗎？ </p>
+
+    <div *ngIf="!loading && !isConfirm">
+      <p class="text-base text-inherit pb-1">請輸入給予分數</p>
+      <input type="number" min="1" max="10" [(ngModel)]="setScore" oninput="if(value.length>2)value=value.slice(0,2)" id="default-input" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+    </div>
+    <p *ngIf="!loading && isConfirm" class="ont-bold">投票成功！</p>
+  </div>
+  <div *ngIf="!loading" class="flex justify-start p-2">
+    <button *ngIf="!isConfirm" class="bg-gray-900 px-3 mr-3 text-white rounded-md hover:bg-[#FF6670]" mat-button (click)="exectVoteConfirm(data.info)">確認</button>
+    <button mat-button (click)="close()">關閉</button>
+  </div>
+</ng-container>
